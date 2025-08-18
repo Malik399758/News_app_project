@@ -7,9 +7,10 @@ class HeadlineService{
 
 
 
-  var url = 'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=cc03415c9718497bbd184cdf98b057bd';
 
-  Future<List<Article>> getHeadlines()async{
+
+  Future<List<Article>> getHeadlines(String source)async{
+    var url = 'https://newsapi.org/v2/top-headlines?sources=$source&apiKey=cc03415c9718497bbd184cdf98b057bd';
     try{
       final response = await http.get(Uri.parse(url));
       print('json Response ------------> ${response.body}');
