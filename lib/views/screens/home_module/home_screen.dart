@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_project/models/news_model.dart';
 import 'package:news_app_project/services/headline_service.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app_project/views/screens/home_module/news_details_screens.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('News App'),
+          title: Text('News App',style: GoogleFonts.poppins(fontSize: 18.sp,fontWeight:FontWeight.w500),),
+          centerTitle: true,
           actions: [
             PopupMenuButton(
                 onSelected: (value) {
@@ -60,104 +62,192 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: list.isEmpty
             ? Center(child: SpinKitThreeBounce(color: Colors.orange,size: 25,))
-            : ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  final article = list[index];
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Stack(
-                          clipBehavior: Clip.none,
+            : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        final article = list[index];
+                        return Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                article.urlToImage ?? '',
-                                height: 260,
-                                width: 300,
-                                fit: BoxFit.cover,
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child;
-                                  }
-                                  return SizedBox(
-                                    height: 260,
-                                    width: 300,
-                                    child: Center(
-                                      child: SpinKitChasingDots(
-                                        color: Colors.orange,
-                                        size: 30,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (context, error, stackTrace) => SizedBox(
-                                  height: 260,
-                                  width: 300,
-                                  child: Icon(Icons.error, size: 40, color: Colors.red),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -60,
-                              child: Card(
-                                child: Container(
-                                  width: 290,
-                                  height: 130,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                      NewsDetailsScreens(item: list[index])));
+                                    },
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
                                       children: [
-                                        Text(
-                                          article.title.toString(),
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.w500),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(article.author ?? '',
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 10.sp,
-                                                      color: Colors.blue),overflow: TextOverflow.ellipsis,),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: Image.network(
+                                            article.urlToImage ?? '',
+                                            height: 260,
+                                            width: 300,
+                                            fit: BoxFit.cover,
+                                            loadingBuilder: (context, child, loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              }
+                                              return SizedBox(
+                                                height: 260,
+                                                width: 300,
+                                                child: Center(
+                                                  child: SpinKitChasingDots(
+                                                    color: Colors.orange,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (context, error, stackTrace) => SizedBox(
+                                              height: 260,
+                                              width: 300,
+                                              child: Icon(Icons.error, size: 40, color: Colors.red),
                                             ),
-                                            SizedBox(width: 5,),
-                                            Text(
-                                                DateFormat(
-                                                        'dd MMM yyyy, hh:mm a')
-                                                    .format(
-                                                        article.publishedAt),
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 10.sp,
-                                                ))
-                                          ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: -60,
+                                          child: Card(
+                                            child: Container(
+                                              width: 290,
+                                              height: 130,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  color: Colors.white),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 10, vertical: 10),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      article.title.toString(),
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 13.sp,
+                                                          fontWeight: FontWeight.w500),
+                                                      maxLines: 2,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Text(article.author ?? '',
+                                                              style: GoogleFonts.poppins(
+                                                                  fontSize: 10.sp,
+                                                                  color: Colors.blue),overflow: TextOverflow.ellipsis,),
+                                                        ),
+                                                        SizedBox(width: 5,),
+                                                        Text(
+                                                            DateFormat(
+                                                                    'dd MMM yyyy, hh:mm a')
+                                                                .format(
+                                                                    article.publishedAt),
+                                                            style: GoogleFonts.poppins(
+                                                              fontSize: 10.sp,
+                                                            ))
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         )
                                       ],
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
+                  
+                              ],
+                            ),
                           ],
-                        ),
-                      ),
-                    ],
-                  );
-                }));
+                        );
+                      }),
+                ),
+
+                if (list.isEmpty) SpinKitChasingDots(color: Colors.blue,size: 25,) else Expanded(
+                      child: ListView.builder(
+                         itemCount: list.length,
+                          itemBuilder: (context,index){
+                        final article = list[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: double.infinity,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.network(
+                                    article.urlToImage.toString(),
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Icon(Icons.error, size: 40),
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          article.title.toString(),
+                                          style: GoogleFonts.poppins(fontSize: 10),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(article.author.toString(),style: GoogleFonts.poppins(fontSize: 10.sp,fontWeight: FontWeight.w400,
+                                                  color: Colors.blue),overflow: TextOverflow.ellipsis,),
+                                            ),
+                                            SizedBox(width: 5,),
+                                            Text(
+                                                DateFormat(
+                                                    'dd MMM yyyy, hh:mm a')
+                                                    .format(
+                                                    article.publishedAt),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 10.sp,
+                                                )),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+
+                        );
+                      
+                      }),
+                    )
+              ],
+            ));
   }
 }
