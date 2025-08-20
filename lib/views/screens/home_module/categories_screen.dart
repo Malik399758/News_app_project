@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app_project/models/category_model.dart';
 import 'package:news_app_project/services/categories_service.dart';
+import 'package:news_app_project/views/screens/home_module/categories_details_screen.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -48,7 +49,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 🔹 Horizontal Categories
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -102,8 +102,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: (){
-                        /*  Navigator.push(context,MaterialPageRoute(builder: (context) =>
-                              NewsDetailsScreens(item: list[index])));*/
+                          Navigator.push(context,MaterialPageRoute(builder: (context) =>
+                              CategoriesDetailsScreen(item: category[index])));
                         },
                         child: Container(
                           width: double.infinity,
