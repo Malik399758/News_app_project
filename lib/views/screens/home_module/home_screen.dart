@@ -56,17 +56,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
                 itemBuilder: (context) => [
-                      PopupMenuItem(value: 'bbc-news', child: Text('BBC News')),
-                      PopupMenuItem(value: 'ary-news', child: Text('ARY News')),
-                      PopupMenuItem(value: 'cnn', child: Text('Cnn')),
+                      PopupMenuItem(value: 'bbc-news', child: Text('BBC News',style : GoogleFonts.poppins(fontSize: 14.sp,fontWeight: FontWeight.w500))),
+                      PopupMenuItem(value: 'ary-news', child: Text('ARY News',style : GoogleFonts.poppins(fontSize: 14.sp,fontWeight: FontWeight.w500))),
+                      PopupMenuItem(value: 'cnn', child: Text('Cnn',style : GoogleFonts.poppins(fontSize: 14.sp,fontWeight: FontWeight.w500))),
                       PopupMenuItem(
                           value: 'al-jazeera-english',
-                          child: Text('Al-Jazeera-English')),
+                          child: Text('Al-Jazeera-English',style : GoogleFonts.poppins(fontSize: 14.sp,fontWeight: FontWeight.w500))),
                     ])
           ],
         ),
         body: list.isEmpty
-            ? Center(child: SpinKitThreeBounce(color: Colors.orange,size: 25,))
+            ? Center(child: SpinKitThreeBounce(color: Colors.blue,size: 25,))
             : Column(
               children: [
                 Expanded(
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 width: 300,
                                                 child: Center(
                                                   child: SpinKitChasingDots(
-                                                    color: Colors.orange,
+                                                    color: Colors.blue,
                                                     size: 30,
                                                   ),
                                                 ),
@@ -189,68 +189,87 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (context,index){
                         final article = list[index];
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(3.0),
                           child: GestureDetector(
                             onTap: (){
                               Navigator.push(context,MaterialPageRoute(builder: (context) =>
                               NewsDetailsScreens(item: list[index])));
                             },
-                            child: Container(
-                              width: double.infinity,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
+                            child: Card(
+                              child: Container(
+                                width: double.infinity,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.network(
+                                  article.urlToImage.toString(),
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                  // Loading Spinner
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: SizedBox(
+                                        height: 80.h,
+                                        width: 80.w,
+                                        child: SpinKitCircle(
+                                          color: Colors.blue,  // Change color if needed
+                                          size: 30,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  // Error Image
+                                  errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.error, size: 80),
+                                ),
                               ),
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.network(
-                                      article.urlToImage.toString(),
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => Icon(Icons.error, size: 40),
-                                    ),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            article.title.toString(),
-                                            style: GoogleFonts.poppins(fontSize: 10),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: Text(article.author.toString(),style: GoogleFonts.poppins(fontSize: 10.sp,fontWeight: FontWeight.w400,
-                                                    color: Colors.blue),overflow: TextOverflow.ellipsis,),
-                                              ),
-                                              SizedBox(width: 5,),
-                                              Text(
-                                                  DateFormat(
-                                                      'dd MMM yyyy, hh:mm a')
-                                                      .format(
-                                                      article.publishedAt),
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 10.sp,
-                                                  )),
-                                            ],
-                                          ),
-                                        ],
+
+                              SizedBox(width: 8),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              article.title.toString(),
+                                              style: GoogleFonts.poppins(fontSize: 10),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(article.author.toString(),style: GoogleFonts.poppins(fontSize: 10.sp,fontWeight: FontWeight.w400,
+                                                      color: Colors.blue),overflow: TextOverflow.ellipsis,),
+                                                ),
+                                                SizedBox(width: 5,),
+                                                Text(
+                                                    DateFormat(
+                                                        'dd MMM yyyy, hh:mm a')
+                                                        .format(
+                                                        article.publishedAt),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 10.sp,
+                                                    )),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           )

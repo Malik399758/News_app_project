@@ -99,88 +99,90 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 itemBuilder: (context,index){
                   final article = category[index];
                   return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(3.0),
                       child: GestureDetector(
                         onTap: (){
                           Navigator.push(context,MaterialPageRoute(builder: (context) =>
                               CategoriesDetailsScreen(item: category[index])));
                         },
-                        child: Container(
-                          width: double.infinity,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.network(
-                                  article.urlToImage.toString(),
-                                  width: 80,
-                                  height: 80,
-                                  fit: BoxFit.cover,
-
-                                  loadingBuilder: (context, child, loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    }
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 80,
-                                        height: 80,
-                                        child: SpinKitChasingDots(
-                                          color: Colors.blue,
-                                          size: 25,
-                                        )
-                                      ),
-                                    );
-                                  },
-
-                                  // ✅ show error if image fails
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(Icons.error, size: 80, color: Colors.red),
-                                ),
-                              ),
-
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        article.title.toString(),
-                                        style: GoogleFonts.poppins(fontSize: 10),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text(article.author.toString(),style: GoogleFonts.poppins(fontSize: 10.sp,fontWeight: FontWeight.w400,
-                                                color: Colors.blue),overflow: TextOverflow.ellipsis,),
-                                          ),
-                                          SizedBox(width: 5,),
-                                          Text(
-                                            DateFormat('dd MMM yyyy, hh:mm a')
-                                                .format(DateTime.parse(article.publishedAt)), // convert String → DateTime
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 10.sp,
-                                            ),
+                        child: Card(
+                          child: Container(
+                            width: double.infinity,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.network(
+                                    article.urlToImage.toString(),
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                          
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 80,
+                                          height: 80,
+                                          child: SpinKitCircle(
+                                            color: Colors.blue,
+                                            size: 25,
                                           )
-
-                                        ],
-                                      ),
-                                    ],
+                                        ),
+                                      );
+                                    },
+                          
+                                    // ✅ show error if image fails
+                                    errorBuilder: (context, error, stackTrace) =>
+                                        Icon(Icons.error, size: 80, color: Colors.red),
                                   ),
                                 ),
-                              ),
-                            ],
+                          
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          article.title.toString(),
+                                          style: GoogleFonts.poppins(fontSize: 10),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(article.author.toString(),style: GoogleFonts.poppins(fontSize: 10.sp,fontWeight: FontWeight.w400,
+                                                  color: Colors.blue),overflow: TextOverflow.ellipsis,),
+                                            ),
+                                            SizedBox(width: 5,),
+                                            Text(
+                                              DateFormat('dd MMM yyyy, hh:mm a')
+                                                  .format(DateTime.parse(article.publishedAt)), // convert String → DateTime
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 10.sp,
+                                              ),
+                                            )
+                          
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       )
